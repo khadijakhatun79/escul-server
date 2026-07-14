@@ -225,11 +225,11 @@ app.get("/courses", async (req: Request, res: Response) => {
 
 app.get("/courses/:id", async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const id = String(req.params.id);
 
-    const course = await coursesCollection.findOne({
-      _id: new ObjectId(id),
-    });
+const course = await coursesCollection.findOne({
+  _id: new ObjectId(id),
+});
 
     if (!course) {
       return res.status(404).send({
@@ -277,12 +277,12 @@ app.put(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const id = req.params.id;
+     const id = String(req.params.id);
 
-      const result = await coursesCollection.updateOne(
-        {
-          _id: new ObjectId(id),
-        },
+const result = await coursesCollection.updateOne(
+  {
+    _id: new ObjectId(id),
+  },
         {
           $set: req.body,
         }
@@ -303,11 +303,11 @@ app.delete(
   verifyToken,
   async (req: AuthRequest, res: Response) => {
     try {
-      const id = req.params.id;
+      const id = String(req.params.id);
 
-      const result = await coursesCollection.deleteOne({
-        _id: new ObjectId(id),
-      });
+const result = await coursesCollection.deleteOne({
+  _id: new ObjectId(id),
+});
 
       res.send(result);
     } catch (error) {
@@ -417,7 +417,7 @@ app.post("/auth/logout", (req: Request, res: Response) => {
 
 async function run() {
   try {
-    await client.connect();
+    //await client.connect();
 
 
     const db = client.db("escul");
